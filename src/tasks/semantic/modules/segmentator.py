@@ -226,7 +226,7 @@ class Segmentator(nn.Module):
     return [z1, z2, z3, z4, z5]
 
   def save_checkpoint(self, logdir, suffix=""):
-    torch.save(self.state_dict(), logdir + "/model")
+    torch.save(self.state_dict(), logdir + "/model" + suffix)
     # Save the weights
     torch.save(self.backbone.state_dict(), logdir +
                "/backbone" + suffix)
