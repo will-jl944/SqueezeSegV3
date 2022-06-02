@@ -118,12 +118,42 @@ class Decoder(nn.Module):
   def forward(self, x, skips):
     os = self.backbone_OS
 
+    count = 1
+
     # run layers
     x1, skips, os = self.run_layer(x, self.dec5, skips, os)
+
+    print("\n")
+    print("Decoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(x1.mean(), x1.size()))
+    count += 1
+
     x2, skips, os = self.run_layer(x1, self.dec4, skips, os)
+
+    print("\n")
+    print("Decoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(x2.mean(), x2.size()))
+    count += 1
+
     x3, skips, os = self.run_layer(x2, self.dec3, skips, os)
+
+    print("\n")
+    print("Decoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(x3.mean(), x3.size()))
+    count += 1
+
     x4, skips, os = self.run_layer(x3, self.dec2, skips, os)
+
+    print("\n")
+    print("Decoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(x4.mean(), x4.size()))
+    count += 1
+
     x5, skips, os = self.run_layer(x4, self.dec1, skips, os)
+
+    print("\n")
+    print("Decoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(x5.mean(), x5.size()))
 
     x5 = self.dropout(x5)
 

@@ -284,7 +284,7 @@ class Parser():
                                                    shuffle=False,
                                                    num_workers=self.workers,
                                                    pin_memory=True,
-                                                   drop_last=True)
+                                                   drop_last=False)
         assert len(self.validloader) > 0
         self.validiter = iter(self.validloader)
 

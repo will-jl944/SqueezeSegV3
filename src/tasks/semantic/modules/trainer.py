@@ -311,7 +311,10 @@ class Trainer():
     for i, (in_vol, proj_mask, proj_labels, _, path_seq, path_name, _, _, _, _, _, _, _, _, _) in enumerate(train_loader):
         # measure data loading time
       data_time.update(time.time() - end)
-      proj_labels = proj_labels.unsqueeze(1).type(torch.FloatTensor)
+      # proj_labels = proj_labels.unsqueeze(1).type(torch.FloatTensor)
+
+      proj_labels = torch.from_numpy(np.load('/home/workspace/labels.npy')).cuda()
+
       if not self.multi_gpu and self.gpu:
         in_vol = in_vol.cuda()
         proj_mask = proj_mask.cuda()
@@ -330,6 +333,12 @@ class Trainer():
         criterion(torch.log(z4.clamp(min=1e-8)), proj_labels_4)+\
         criterion(torch.log(z3.clamp(min=1e-8)), proj_labels_3)+\
         criterion(torch.log(z2.clamp(min=1e-8)), proj_labels_2)
+
+      print('loss:')
+      print("mean={}, shape={}".format(loss.mean(), loss.size()))
+      import sys
+      sys.exit()
+
       # compute gradient and do SGD step
       optimizer.zero_grad()
       if self.n_gpus > 1:
@@ -382,7 +391,7 @@ class Trainer():
         cv2.waitKey(1)
 
       if i % self.ARCH["train"]["report_batch"] == 0:
-        print('Lr: {lr:.3e} | '
+        print('Lr: {lr:.6f} ({scaled_lr:.6f}) | '
               'Update: {umean:.3e} mean,{ustd:.3e} std | '
               'Epoch: [{0}][{1}/{2}] | '
               'Time {batch_time.val:.3f} ({batch_time.avg:.3f}) | '
@@ -391,7 +400,7 @@ class Trainer():
               'acc {acc.val:.3f} ({acc.avg:.3f}) | '
               'IoU {iou.val:.3f} ({iou.avg:.3f})'.format(
                   epoch, i, len(train_loader), batch_time=batch_time,
-                  data_time=data_time, loss=losses, acc=acc, iou=iou, lr=lr,
+                  data_time=data_time, loss=losses, acc=acc, iou=iou, lr=lr, scaled_lr=lr * 8,
                   umean=update_mean, ustd=update_std))
 
       # step scheduler

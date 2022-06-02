@@ -6,6 +6,8 @@ import torch.nn as nn
 from collections import OrderedDict
 import torch.nn.functional as F
 
+import numpy as np
+
 
 class SACBlock(nn.Module):
   def __init__(self, inplanes, expand1x1_planes, bn_d = 0.1):
@@ -158,16 +160,67 @@ class Backbone(nn.Module):
     return xyz, feature, skips, os
 
   def forward(self, feature):
+    feature = torch.from_numpy(np.load('/home/workspace/range_images.npy')).cuda()
+
     skips = {}
     os = 1
     xyz = feature[:,1:4,:,:]
     feature = self.relu1(self.bn1(self.conv1(feature)))
 
+    print("\n")
+    print("Encoder conv 1 output:")
+    print("feature: mean={}, shape={}".format(feature.mean(), feature.size()))
+
+    count = 1
+
     xyz,feature, skips, os = self.run_layer(xyz,feature, self.enc1, skips, os)
+
+    print("\n")
+    print("Encoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(feature.mean(), feature.size()))
+
+    for i, skip in enumerate(skips.values(), start=1):
+        print("skip {}: mean={}, shape={}".format(i, skip.mean(), skip.size()))
+    count += 1
+
     xyz,feature, skips, os = self.run_layer(xyz,feature, self.enc2, skips, os)
+
+    print("\n")
+    print("Encoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(feature.mean(), feature.size()))
+
+    for i, skip in enumerate(skips.values(), start=1):
+        print("skip {}: mean={}, shape={}".format(i, skip.mean(), skip.size()))
+    count += 1
+
     xyz,feature, skips, os = self.run_layer(xyz,feature, self.enc3, skips, os)
+
+    print("\n")
+    print("Encoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(feature.mean(), feature.size()))
+
+    for i, skip in enumerate(skips.values(), start=1):
+        print("skip {}: mean={}, shape={}".format(i, skip.mean(), skip.size()))
+    count += 1
+
     xyz,feature, skips, os = self.run_layer(xyz,feature, self.enc4, skips, os, flag=False)
+
+    print("\n")
+    print("Encoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(feature.mean(), feature.size()))
+
+    for i, skip in enumerate(skips.values(), start=1):
+        print("skip {}: mean={}, shape={}".format(i, skip.mean(), skip.size()))
+    count += 1
+
     xyz,feature, skips, os = self.run_layer(xyz,feature, self.enc5, skips, os, flag=False)
+
+    print("\n")
+    print("Encoder stage {} output:".format(count))
+    print("feature: mean={}, shape={}".format(feature.mean(), feature.size()))
+
+    for i, skip in enumerate(skips.values(), start=1):
+        print("skip {}: mean={}, shape={}".format(i, skip.mean(), skip.size()))
 
     return feature, skips
 
