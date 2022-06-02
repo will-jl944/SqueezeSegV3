@@ -155,7 +155,7 @@ class Decoder(nn.Module):
     print("Decoder stage {} output:".format(count))
     print("feature: mean={}, shape={}".format(x5.mean(), x5.size()))
 
-    x5 = self.dropout(x5)
+    # x5 = self.dropout(x5)
 
     return [x5, x4, x3, x2, x1]
 

@@ -45,26 +45,26 @@ class Segmentator(nn.Module):
                                          OS=self.ARCH["backbone"]["OS"],
                                          feature_depth=self.backbone.get_last_depth())
 
-    self.head1 = nn.Sequential(nn.Dropout2d(p=ARCH["head"]["dropout"]),
+    self.head1 = nn.Sequential(#nn.Dropout2d(p=ARCH["head"]["dropout"]),
                               nn.Conv2d(256,
                                         self.nclasses, kernel_size=1,
                                         stride=1, padding=0))
 
-    self.head2 = nn.Sequential(nn.Dropout2d(p=ARCH["head"]["dropout"]),
+    self.head2 = nn.Sequential(#nn.Dropout2d(p=ARCH["head"]["dropout"]),
                               nn.Conv2d(256,
                                         self.nclasses, kernel_size=1,
                                         stride=1, padding=0))
 
-    self.head3 = nn.Sequential(nn.Dropout2d(p=ARCH["head"]["dropout"]),
+    self.head3 = nn.Sequential(#nn.Dropout2d(p=ARCH["head"]["dropout"]),
                               nn.Conv2d(128,
                                         self.nclasses, kernel_size=1,
                                         stride=1, padding=0))
 
-    self.head4 = nn.Sequential(nn.Dropout2d(p=ARCH["head"]["dropout"]),
+    self.head4 = nn.Sequential(#nn.Dropout2d(p=ARCH["head"]["dropout"]),
                               nn.Conv2d(64,
                                         self.nclasses, kernel_size=1,
                                         stride=1, padding=0))
-    self.head5 = nn.Sequential(nn.Dropout2d(p=ARCH["head"]["dropout"]),
+    self.head5 = nn.Sequential(#nn.Dropout2d(p=ARCH["head"]["dropout"]),
                               nn.Conv2d(32,
                                         self.nclasses, kernel_size=3,
                                         stride=1, padding=1))

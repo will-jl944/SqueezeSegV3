@@ -156,7 +156,8 @@ class Backbone(nn.Module):
     if y.shape[2] < feature.shape[2] or y.shape[3] < feature.shape[3]:
       skips[os] = feature.detach()
       os *= 2
-    feature = self.dropout(y)
+    # feature = self.dropout(y)
+    feature = y
     return xyz, feature, skips, os
 
   def forward(self, feature):
