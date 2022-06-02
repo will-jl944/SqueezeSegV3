@@ -41,7 +41,7 @@ class Segmentator(nn.Module):
                                     booger.TRAIN_PATH + '/tasks/semantic/decoders/' +
                                     self.ARCH["decoder"]["name"] + '.py')
     self.decoder = decoderModule.Decoder(params=self.ARCH["decoder"],
-                                         stub_skips=stub_skips,
+                                         stub_skips=None,
                                          OS=self.ARCH["backbone"]["OS"],
                                          feature_depth=self.backbone.get_last_depth())
 
