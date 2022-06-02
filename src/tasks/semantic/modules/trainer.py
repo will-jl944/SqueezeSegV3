@@ -88,7 +88,7 @@ class Trainer():
                                self.parser.get_n_classes(),
                                self.path)
     # self.model.save_checkpoint(self.log, suffix='_init')
-    w_dict = torch.load(self.log + "model_init")
+    w_dict = torch.load("model_init")
     self.model.load_state_dict(w_dict, strict=True)
 
     # GPU?
