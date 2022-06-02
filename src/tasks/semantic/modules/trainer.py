@@ -87,6 +87,7 @@ class Trainer():
       self.model = Segmentator(self.ARCH,
                                self.parser.get_n_classes(),
                                self.path)
+    self.model.save_checkpoint(self.log, suffix='_init')
 
     # GPU?
     self.gpu = False
