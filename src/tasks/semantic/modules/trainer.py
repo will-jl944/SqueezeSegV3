@@ -313,7 +313,7 @@ class Trainer():
       data_time.update(time.time() - end)
       # proj_labels = proj_labels.unsqueeze(1).type(torch.FloatTensor)
 
-      proj_labels = torch.from_numpy(np.load('/home/workspace/labels.npy')).cuda().astype(torch.int32)
+      proj_labels = torch.from_numpy(np.load('/home/workspace/labels.npy')).cuda().type(torch.int32)
 
       if not self.multi_gpu and self.gpu:
         in_vol = in_vol.cuda()
